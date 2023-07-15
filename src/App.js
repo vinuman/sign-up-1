@@ -7,8 +7,9 @@ function App() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isEmpty, setIsEmpty] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true);
+  const [success, setSuccess] = useState(false);
 
-  const handleSubmitBtn = () => {
+  const handleSubmitBtn = (e) => {
     if (
       fullName == "" ||
       email == "" ||
@@ -16,11 +17,17 @@ function App() {
       confirmPassword == ""
     ) {
       setIsEmpty(true);
-    } else setIsEmpty(false);
-    if (!(password === confirmPassword)) {
-      setPasswordMatch(false);
+      setSuccess(false);
     } else {
+      setIsEmpty(false);
+      setSuccess(true);
+    }
+    if (password === confirmPassword) {
       setPasswordMatch(true);
+      setSuccess(true);
+    } else {
+      setPasswordMatch(false);
+      setSuccess(false);
     }
   };
   return (
@@ -54,7 +61,7 @@ function App() {
           ></input>
         </form>
         <button
-          onClick={() => handleSubmitBtn()}
+          onClick={(e) => handleSubmitBtn()}
           className=" mt-2  pl-8 pr-8 pt-2 pb-2 bg-teal-500 rounded-md hover:bg-lime-300"
         >
           Create Account
@@ -69,7 +76,7 @@ function App() {
             Error: Make sure your password and confirm password is matching
           </p>
         )}
-        {passwordMatch && !isEmpty && (
+        {success && (
           <p className="pt-4 text-green-700">Successfully created!</p>
         )}
       </div>
